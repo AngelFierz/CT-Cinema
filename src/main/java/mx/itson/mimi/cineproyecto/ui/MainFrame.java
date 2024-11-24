@@ -14,18 +14,17 @@ import java.awt.*;
 public class MainFrame extends JFrame {
 
     public MainFrame() {
-        // Configuración básica
+        
         setTitle("CT Cinema");
-        setSize(400, 250);
+        setSize(600, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new GridLayout(3, 1, 10, 10)); 
 
-        // Botones
+       
         JButton btnCartelera = new JButton("Mostrar Cartelera");
         JButton btnComprarBoletos = new JButton("Comprar Boletos");
         JButton btnSalir = new JButton("Salir");
 
-        // Eventos
         btnCartelera.addActionListener(e -> {
             new CarteleraFrame().setVisible(true);
             dispose();
@@ -38,7 +37,6 @@ public class MainFrame extends JFrame {
 
         btnSalir.addActionListener(e -> System.exit(0));
 
-        // Añadir botones
         add(btnCartelera);
         add(btnComprarBoletos);
         add(btnSalir);

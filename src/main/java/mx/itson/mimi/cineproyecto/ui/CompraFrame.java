@@ -25,8 +25,8 @@ public class CompraFrame extends JFrame {
     private Map<String, boolean[][]> mapaAsientos;
 
     public CompraFrame() {
-        setTitle("Compra de Boletos");
-        setSize(600, 400);
+        setTitle("Boletotes");
+        setSize(800, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
@@ -62,7 +62,6 @@ public class CompraFrame extends JFrame {
         JButton btnConfirmar = new JButton("Confirmar Compra");
         JButton btnVolver = new JButton("Volver");
 
-        // Eventos de selección de asiento
         tablaAsientos.getSelectionModel().addListSelectionListener(e -> {
             int fila = tablaAsientos.getSelectedRow();
             int columna = tablaAsientos.getSelectedColumn();
@@ -76,16 +75,16 @@ public class CompraFrame extends JFrame {
             }
         });
 
-        // Evento de Confirmar Compra
+    
         btnConfirmar.addActionListener(e -> confirmarCompra());
 
-        // Evento de Volver
+
         btnVolver.addActionListener(e -> {
             new MainFrame().setVisible(true);
             dispose();
         });
 
-        // Layout
+
         JPanel panelInferior = new JPanel(new GridLayout(2, 1, 10, 10));
         panelInferior.add(txtNombreCliente);
         panelInferior.add(btnConfirmar);
@@ -144,11 +143,11 @@ public class CompraFrame extends JFrame {
         String cliente = txtNombreCliente.getText().isEmpty() ? "Sin nombre" : txtNombreCliente.getText();
         String asiento = "Fila " + (fila + 1) + ", Columna " + (columna + 1);
 
-        // Marcar asiento como ocupado
+    
         mapaAsientos.get(pelicula)[fila][columna] = true;
         actualizarTablaAsientos(); // Refrescar la tabla visualmente
 
-        // Mostrar confirmación
+      
         JOptionPane.showMessageDialog(this, "Compra realizada con éxito.\nCliente: " + cliente +
             "\nPelícula: " + pelicula + "\nAsiento: " + asiento);
     }

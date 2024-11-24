@@ -15,7 +15,7 @@ import java.awt.*;
 public class CarteleraFrame extends javax.swing.JFrame {
 
     /**
-     * Creates new form CarteleraFrame
+     * Creates new form CarteleraFrame (Aqui se agregan las peliculas a la cartelera)
      */
       public CarteleraFrame() {
 

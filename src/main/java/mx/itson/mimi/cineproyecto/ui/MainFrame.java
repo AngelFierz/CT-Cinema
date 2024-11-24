@@ -20,9 +20,12 @@ public class MainFrame extends javax.swing.JFrame {
      */
 
     public MainFrame() {
-         // Aqui haganle mod si desean agregar algo cool!
+       
          
-    
+        setTitle("Cine VIP - Menú Principal");
+        setSize(400, 300);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new GridLayout(5, 1, 10, 10));
         setLayout(new GridLayout(5, 1, 10, 10));
 
         // Botones

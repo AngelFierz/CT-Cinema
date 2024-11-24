@@ -18,18 +18,20 @@ public class CarteleraFrame extends javax.swing.JFrame {
      * Creates new form CarteleraFrame
      */
       public CarteleraFrame() {
-        // Configuración básica
-        setTitle("Cartelera de Películas");
-        setSize(500, 300);
+
+        setTitle("Cartelera ");
+        setSize(700, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        // Datos de la cartelera
+
         String[] columnas = {"Película", "Horario", "Precio"};
         String[][] datos = {
-            {"Venom: El Último Baile", "2:00 PM", "$120"},
-            {"Sonríe 2", "5:00 PM", "$100"},
-            {"Gladiador (Reestreno)", "8:00 PM", "$150"}
+            {"Venom: El Último Baile", "2:00 PM", "$120 MX "},
+            {"Sonríe 2", "5:00 PM", "$100 MX"},
+            {"Gladiador (Reestreno)", "8:00 PM", "$150 MX"},
+            {"CT Rewrite", "2:00 PM", "$1000 MX"},
+            {"Requiem Por Un Sueño", "7:00 PM", "$160 MX"}
         };
 
         JTable tablaCartelera = new JTable(datos, columnas);
@@ -41,7 +43,6 @@ public class CarteleraFrame extends javax.swing.JFrame {
             dispose();
         });
 
-        // Añadir componentes
         add(scrollPane, BorderLayout.CENTER);
         add(btnVolver, BorderLayout.SOUTH);
 

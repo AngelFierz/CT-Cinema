@@ -10,29 +10,20 @@ package mx.itson.mimi.cineproyecto.ui;
  */
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class MainFrame extends javax.swing.JFrame {
-
-    /**
-     * Creates new form MainFrame
-     */
+public class MainFrame extends JFrame {
 
     public MainFrame() {
-       
-         
-        setTitle("Cine VIP - Menú Principal");
-        setSize(400, 300);
+        // Configuración básica
+        setTitle("CT Cinema");
+        setSize(400, 250);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new GridLayout(5, 1, 10, 10));
-        setLayout(new GridLayout(5, 1, 10, 10));
+        setLayout(new GridLayout(3, 1, 10, 10)); 
 
         // Botones
-        JButton btnCartelera = new JButton("Mostrar La Cartelera");
-        JButton btnComprarBoletos = new JButton("Comprar Boletotes");
-        JButton btnReporteGeneral = new JButton("Reporte General (BETA)");
-        JButton btnReportePorFuncion = new JButton("Reporte por Función (BETA)");
+        JButton btnCartelera = new JButton("Mostrar Cartelera");
+        JButton btnComprarBoletos = new JButton("Comprar Boletos");
+        JButton btnSalir = new JButton("Salir");
 
         // Eventos
         btnCartelera.addActionListener(e -> {
@@ -45,26 +36,16 @@ public class MainFrame extends javax.swing.JFrame {
             dispose();
         });
 
-        btnReporteGeneral.addActionListener(e -> {
-            new ReporteGeneralFrame().setVisible(true);
-            dispose();
-        });
-
-        btnReportePorFuncion.addActionListener(e -> {
-            new ReporteporFuncionFrame().setVisible(true);
-            dispose();
-        });
-
-
+        btnSalir.addActionListener(e -> System.exit(0));
 
         // Añadir botones
         add(btnCartelera);
         add(btnComprarBoletos);
-        add(btnReporteGeneral);
-        add(btnReportePorFuncion);
+        add(btnSalir);
 
         setLocationRelativeTo(null);
     }
+
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new MainFrame().setVisible(true));
@@ -82,18 +63,12 @@ public class MainFrame extends javax.swing.JFrame {
 
         btncartelera = new javax.swing.JButton();
         btnboletos = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        btnreporteporfuncion = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         btncartelera.setText("Ver Cartelera");
 
         btnboletos.setText("Comprar Boletotes");
-
-        jButton3.setText("Ver Reporte General");
-
-        btnreporteporfuncion.setText("Reporte Por Funcion");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -102,11 +77,9 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(46, 46, 46)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnreporteporfuncion)
-                    .addComponent(jButton3)
                     .addComponent(btnboletos)
                     .addComponent(btncartelera))
-                .addContainerGap(364, Short.MAX_VALUE))
+                .addContainerGap(373, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -115,11 +88,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(btncartelera)
                 .addGap(40, 40, 40)
                 .addComponent(btnboletos)
-                .addGap(49, 49, 49)
-                .addComponent(jButton3)
-                .addGap(42, 42, 42)
-                .addComponent(btnreporteporfuncion)
-                .addContainerGap(115, Short.MAX_VALUE))
+                .addContainerGap(250, Short.MAX_VALUE))
         );
 
         pack();
@@ -133,7 +102,5 @@ public class MainFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnboletos;
     private javax.swing.JButton btncartelera;
-    private javax.swing.JButton btnreporteporfuncion;
-    private javax.swing.JButton jButton3;
     // End of variables declaration//GEN-END:variables
     }

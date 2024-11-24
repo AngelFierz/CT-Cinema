@@ -26,12 +26,10 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="btnreporteporfuncion" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnboletos" min="-2" max="-2" attributes="0"/>
                   <Component id="btncartelera" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="364" max="32767" attributes="0"/>
+              <EmptySpace pref="373" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -42,11 +40,7 @@
               <Component id="btncartelera" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
               <Component id="btnboletos" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
-              <Component id="jButton3" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
-              <Component id="btnreporteporfuncion" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="115" max="32767" attributes="0"/>
+              <EmptySpace pref="250" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -60,16 +54,6 @@
     <Component class="javax.swing.JButton" name="btnboletos">
       <Properties>
         <Property name="text" type="java.lang.String" value="Comprar Boletotes"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="jButton3">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Ver Reporte General"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="btnreporteporfuncion">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Reporte Por Funcion"/>
       </Properties>
     </Component>
   </SubComponents>

@@ -12,47 +12,51 @@ package mx.itson.mimi.cineproyecto.ui;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CompraFrame extends JFrame {
-    
+
     private JTable tablaAsientos;
     private DefaultTableModel modeloTabla;
     private JComboBox<String> cmbPeliculas;
-    private boolean[][] asientosOcupados; // Estado de los asientos (true = ocupado)
     private JTextField txtNombreCliente;
 
+    private Map<String, boolean[][]> mapaAsientos;
+
     public CompraFrame() {
-        // Configuración básica
         setTitle("Compra de Boletos");
         setSize(600, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        // Inicializar estado de los asientos (4x4)
-        asientosOcupados = new boolean[4][4];
+        mapaAsientos = new HashMap<>();
+        inicializarAsientos();
 
-        // Configurar JTable
-        String[] columnas = {"1", "2", "3", "4"}; // Etiquetas de las columnas
-        Object[][] datos = generarDatosAsientos(); // Generar datos iniciales
-        modeloTabla = new DefaultTableModel(datos, columnas) {
+        cmbPeliculas = new JComboBox<>(new String[]{
+            "Venom: El Último Baile",
+            "Sonríe 2", 
+            "Gladiador (Reestreno)",
+            "CT Rewrite",
+            "Requiem Por Un Sueño"
+        });
+
+        cmbPeliculas.addActionListener(e -> actualizarTablaAsientos());
+
+ 
+        String[] columnas = {"1", "2", "3", "4","5"}; 
+        modeloTabla = new DefaultTableModel(generarDatosAsientos("Venom: El Último Baile"), columnas) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // Las celdas no serán editables
+                return false;
             }
         };
         tablaAsientos = new JTable(modeloTabla);
-        tablaAsientos.setRowHeight(50); // Ajustar altura de las filas
-
-        // Selector de películas
-        cmbPeliculas = new JComboBox<>(new String[]{
-            "Venom: El Último Baile", "Sonríe 2", "Gladiador (Reestreno)"
-        });
+        tablaAsientos.setRowHeight(50); 
 
         // Campo de texto para cliente
         txtNombreCliente = new JTextField();
-        txtNombreCliente.setBorder(BorderFactory.createTitledBorder("Nombre del Cliente (Opcional)"));
+        txtNombreCliente.setBorder(BorderFactory.createTitledBorder("!"));
 
         // Botones
         JButton btnConfirmar = new JButton("Confirmar Compra");
@@ -63,8 +67,9 @@ public class CompraFrame extends JFrame {
             int fila = tablaAsientos.getSelectedRow();
             int columna = tablaAsientos.getSelectedColumn();
             if (fila != -1 && columna != -1) {
-                if (asientosOcupados[fila][columna]) {
-                    JOptionPane.showMessageDialog(null, "Este asiento ya está ocupado.");
+                String pelicula = (String) cmbPeliculas.getSelectedItem();
+                if (mapaAsientos.get(pelicula)[fila][columna]) {
+                    JOptionPane.showMessageDialog(null, "ASIENTO OCUPADO");
                 } else {
                     JOptionPane.showMessageDialog(null, "Seleccionaste el asiento: Fila " + (fila + 1) + ", Columna " + (columna + 1));
                 }
@@ -93,39 +98,55 @@ public class CompraFrame extends JFrame {
         setLocationRelativeTo(null);
     }
 
-    // Generar los datos iniciales para el JTable
-    private Object[][] generarDatosAsientos() {
+
+    private void inicializarAsientos() {
+        mapaAsientos.put("Venom: El Último Baile", new boolean[4][4]);
+        mapaAsientos.put("Sonríe 2", new boolean[4][4]);
+        mapaAsientos.put("Gladiador (Reestreno)", new boolean[5][5]);
+        mapaAsientos.put("CT Rewrite", new boolean[6][5]);
+        mapaAsientos.put("Requiem Por Un Sueño", new boolean[5][5]);
+    }
+
+   
+    private Object[][] generarDatosAsientos(String pelicula) {
+        boolean[][] asientos = mapaAsientos.get(pelicula);
         Object[][] datos = new Object[4][4];
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                datos[i][j] = "A" + (i + 1) + (j + 1); // Etiqueta del asiento
+                datos[i][j] = asientos[i][j] ? "X" : "A" + (i + 1) + (j + 1);
             }
         }
         return datos;
     }
 
-    // Lógica para confirmar la compra
+
+    private void actualizarTablaAsientos() {
+        String pelicula = (String) cmbPeliculas.getSelectedItem();
+        modeloTabla.setDataVector(generarDatosAsientos(pelicula), new String[]{"1", "2", "3", "4"});
+    }
+
+
     private void confirmarCompra() {
         int fila = tablaAsientos.getSelectedRow();
         int columna = tablaAsientos.getSelectedColumn();
 
         if (fila == -1 || columna == -1) {
-            JOptionPane.showMessageDialog(this, "Por favor selecciona un asiento.");
+            JOptionPane.showMessageDialog(this, "Elige un asiento");
             return;
         }
 
-        if (asientosOcupados[fila][columna]) {
-            JOptionPane.showMessageDialog(this, "Este asiento ya está ocupado.");
+        String pelicula = (String) cmbPeliculas.getSelectedItem();
+        if (mapaAsientos.get(pelicula)[fila][columna]) {
+            JOptionPane.showMessageDialog(this, "ASIENTO OCUPADO");
             return;
         }
 
         String cliente = txtNombreCliente.getText().isEmpty() ? "Sin nombre" : txtNombreCliente.getText();
-        String pelicula = (String) cmbPeliculas.getSelectedItem();
         String asiento = "Fila " + (fila + 1) + ", Columna " + (columna + 1);
 
         // Marcar asiento como ocupado
-        asientosOcupados[fila][columna] = true;
-        modeloTabla.setValueAt("X", fila, columna); // Actualizar visualmente en el JTable
+        mapaAsientos.get(pelicula)[fila][columna] = true;
+        actualizarTablaAsientos(); // Refrescar la tabla visualmente
 
         // Mostrar confirmación
         JOptionPane.showMessageDialog(this, "Compra realizada con éxito.\nCliente: " + cliente +

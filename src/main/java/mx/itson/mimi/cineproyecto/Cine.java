@@ -28,6 +28,7 @@ public class Cine {
         peliculas.add(new Pelicula("Venom: El Último Baile", "2:00 PM", 120));
         peliculas.add(new Pelicula("Sonríe 2", "5:00 PM", 100));
         peliculas.add(new Pelicula("Gladiador (Reestreno)", "8:00 PM", 150));
+        peliculas.add(new Pelicula("Solitude Antenna (Estreno)", "10:00 PM", 200));
     }
 
     private void inicializarAsientos() {
@@ -35,7 +36,7 @@ public class Cine {
     }
 
     public void mostrarCartelera() {
-        System.out.println("\n=== Cartelera de Películas ===");
+        System.out.println("\nCartelera");
         for (int i = 0; i < peliculas.size(); i++) {
             Pelicula pelicula = peliculas.get(i);
             System.out.printf("%d. %s - %s - $%.2f\n", i + 1, pelicula.getTitulo(), pelicula.getHorario(), pelicula.getPrecio());
@@ -44,10 +45,10 @@ public class Cine {
 
     public void comprarBoletos(Scanner scanner) {
         mostrarCartelera();
-        System.out.print("Seleccione el número de la película: ");
+        System.out.print("Seleccione el numero de la pelicula en cartelera: ");
         int seleccion = scanner.nextInt();
         if (seleccion < 1 || seleccion > peliculas.size()) {
-            System.out.println("Selección inválida.");
+            System.out.println("Pongalo bien we");
             return;
         }
 
@@ -60,20 +61,20 @@ public class Cine {
         int columna = scanner.nextInt() - 1;
 
         if (fila < 0 || fila >= 4 || columna < 0 || columna >= 4 || asientos[fila][columna]) {
-            System.out.println("Asiento inválido o ya ocupado.");
+            System.out.println("Asiento ocupado");
             return;
         }
 
-        scanner.nextLine(); // Limpiar buffer
+        scanner.nextLine(); 
         System.out.print("Ingrese el nombre del cliente (opcional): ");
         String cliente = scanner.nextLine();
 
-        asientos[fila][columna] = true; // Marcar asiento como ocupado
+        asientos[fila][columna] = true; 
         Boleto boleto = new Boleto(cliente, pelicula, fila, columna);
         boletosVendidos.add(boleto);
 
         pelicula.incrementarBoletosVendidos();
-        System.out.println("¡Boleto comprado exitosamente!");
+        System.out.println("¡Boleto comprado wujuu");
     }
 
     public void mostrarReporteGeneral() {

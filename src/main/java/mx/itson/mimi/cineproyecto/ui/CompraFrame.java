@@ -16,8 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class CompraFrame extends JFrame {
-
-    // Variables globales
+    
     private JTable tablaAsientos;
     private DefaultTableModel modeloTabla;
     private JComboBox<String> cmbPeliculas;

@@ -18,7 +18,7 @@ public class Pelicula {
         this.nombre = nombre;
         this.horario = horario;
         this.precio = precio;
-        this.asientos = new boolean[4][4]; // Inicializa una matriz de 4x4 para los asientos
+        this.asientos = new boolean[4][4]; 
     }
 
     // Getters

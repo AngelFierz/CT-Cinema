@@ -20,7 +20,7 @@ public class CineProyecto {
         inicializarPeliculas();
     }
 
-    // Inicializar películas en cartelera
+    // películas en cartelera
     private void inicializarPeliculas() {
         peliculas.put("Venom: El Último Baile", new Pelicula("Venom: El Último Baile", "2:00 PM", 120));
         peliculas.put("Sonríe 2", new Pelicula("Sonríe 2", "5:00 PM", 100));
@@ -29,12 +29,12 @@ public class CineProyecto {
         peliculas.put("CT Rewrite", new Pelicula("CT Rewrite", "5:00 PM", 300));
     }
 
-    // Obtener películas disponibles
+ 
     public Map<String, Pelicula> obtenerPeliculas() {
         return peliculas;
     }
 
-    // Obtener los asientos de una película
+
     public boolean[][] obtenerAsientos(String pelicula) {
         if (!peliculas.containsKey(pelicula)) {
             throw new IllegalArgumentException("Esa pelicula cual es eh: " + pelicula);
@@ -42,12 +42,12 @@ public class CineProyecto {
         return peliculas.get(pelicula).getAsientos();
     }
 
-    // Registrar un boleto vendido
+
     public void registrarCompra(String cliente, String pelicula, String asiento, double precio) {
         listaBoletos.add(new Boleto(cliente, pelicula, asiento, precio));
     }
 
-    // Obtener la lista de boletos vendidos
+
     public List<Boleto> obtenerBoletosVendidos() {
         return listaBoletos;
     }

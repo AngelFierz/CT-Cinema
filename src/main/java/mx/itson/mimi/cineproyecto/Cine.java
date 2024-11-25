@@ -22,24 +22,24 @@ public class Cine {
         inicializarAsientos();
     }
 
-    // Inicializar los asientos para cada película
+  
     private void inicializarAsientos() {
         mapaAsientos.put("Venom: El Último Baile", new boolean[4][4]);
         mapaAsientos.put("Sonríe 2", new boolean[4][4]);
         mapaAsientos.put("Gladiador (Reestreno)", new boolean[4][4]);
     }
 
-    // Métodos para obtener los asientos de una película específica
+   
     public boolean[][] obtenerAsientos(String pelicula) {
         return mapaAsientos.get(pelicula);
     }
 
-    // Registrar un boleto vendido
+ 
     public void registrarBoleto(String cliente, String pelicula, String asiento, double precio) {
         listaBoletos.add(new Boleto(cliente, pelicula, asiento, precio));
     }
 
-    // Obtener la lista de boletos vendidos
+  
     public List<Boleto> obtenerBoletosVendidos() {
         return listaBoletos;
     }

@@ -20,37 +20,48 @@ public class CarteleraFrame extends JFrame {
     public CarteleraFrame(CineProyecto cineProyecto) {
         this.cineProyecto = cineProyecto;
 
-        // Configuración básica
         setTitle("Cartelera");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new GridLayout(4, 1, 10, 10));
+        setLayout(new GridLayout(6, 3, 10, 10));
 
-        // Crear los botones para cada película
-        JButton btnVenom = new JButton("Venom: El Último Baile");
-        JButton btnSonrie = new JButton("Sonríe 2");
-        JButton btnGladiador = new JButton("Gladiador (Reestreno)");
+       
+        JButton btnVenom = new JButton("Venom: El Último Baile 2:00 PM (120 MX)");
+        JButton btnSonrie = new JButton("Sonríe 2 5:00 PM (100 MX) ");
+        JButton btnGladiador = new JButton("Gladiador (Reestreno) 8:00 PM (150 MX)");
+        JButton btnRequiem = new JButton("Requiem Por Un Sueño 5:00 PM (100 MX)");
+         JButton btnCT = new JButton("CT Rewrite 1:00 AM (300 MX)");
 
-        // Acción de los botones para abrir CompraFrame
+      
         btnVenom.addActionListener(e -> {
-            new CompraFrame(cineProyecto).setVisible(true);  // Abrir CompraFrame
-            dispose();  // Cerrar CarteleraFrame
+            new CompraFrame(cineProyecto).setVisible(true); 
+            dispose();  
         });
         btnSonrie.addActionListener(e -> {
-            new CompraFrame(cineProyecto).setVisible(true);  // Abrir CompraFrame
-            dispose();  // Cerrar CarteleraFrame
+            new CompraFrame(cineProyecto).setVisible(true);  
+            dispose();  
         });
         btnGladiador.addActionListener(e -> {
-            new CompraFrame(cineProyecto).setVisible(true);  // Abrir CompraFrame
-            dispose();  // Cerrar CarteleraFrame
+            new CompraFrame(cineProyecto).setVisible(true);  
+            dispose(); 
+        });
+           btnRequiem.addActionListener(e -> {
+            new CompraFrame(cineProyecto).setVisible(true);  
+            dispose(); 
+        });
+             btnCT.addActionListener(e -> {
+            new CompraFrame(cineProyecto).setVisible(true);  
+            dispose(); 
         });
 
-        // Agregar los botones al frame
+       
         add(btnVenom);
         add(btnSonrie);
         add(btnGladiador);
+        add(btnRequiem);
+        add(btnCT);
 
-        setLocationRelativeTo(null);  // Centrar la ventana
+        setLocationRelativeTo(null); 
     }
 
     private CarteleraFrame() {

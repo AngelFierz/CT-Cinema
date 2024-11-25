@@ -25,13 +25,13 @@ public class ReporteGeneralFrame extends JFrame {
         this.listaBoletos = listaBoletos;
         this.cineProyecto = cineProyecto;
 
-        // Configuración básica
+
         setTitle("Reporte General de Ventas");
         setSize(500, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        // Área de texto para el reporte
+
         txtReporteGeneral = new JTextArea();
         txtReporteGeneral.setEditable(false);
         cargarReporte();
@@ -45,8 +45,8 @@ public class ReporteGeneralFrame extends JFrame {
         // Botón Volver
         JButton btnVolver = new JButton("Volver");
         btnVolver.addActionListener(e -> {
-            new MainFrame(cineProyecto).setVisible(true);  // Volver al MainFrame pasando cineProyecto
-            dispose();  // Cerrar el ReporteGeneralFrame
+            new MainFrame(cineProyecto).setVisible(true);  
+            dispose();  
         });
 
         JPanel panelInferior = new JPanel(new BorderLayout());
@@ -61,7 +61,7 @@ public class ReporteGeneralFrame extends JFrame {
 
     private void cargarReporte() {
         if (listaBoletos.isEmpty()) {
-            txtReporteGeneral.setText("No se han registrado boletos vendidos.");
+            txtReporteGeneral.setText("No hay boletos vendidos");
             return;
         }
 

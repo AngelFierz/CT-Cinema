@@ -25,6 +25,8 @@ public class CineProyecto {
         peliculas.put("Venom: El Último Baile", new Pelicula("Venom: El Último Baile", "2:00 PM", 120));
         peliculas.put("Sonríe 2", new Pelicula("Sonríe 2", "5:00 PM", 100));
         peliculas.put("Gladiador (Reestreno)", new Pelicula("Gladiador (Reestreno)", "8:00 PM", 150));
+        peliculas.put("Requiem Por Un Sueño", new Pelicula("Requiem Por Un Sueño", "5:00 PM", 100));
+        peliculas.put("CT Rewrite", new Pelicula("CT Rewrite", "5:00 PM", 300));
     }
 
     // Obtener películas disponibles
@@ -35,7 +37,7 @@ public class CineProyecto {
     // Obtener los asientos de una película
     public boolean[][] obtenerAsientos(String pelicula) {
         if (!peliculas.containsKey(pelicula)) {
-            throw new IllegalArgumentException("Película no encontrada: " + pelicula);
+            throw new IllegalArgumentException("Esa pelicula cual es eh: " + pelicula);
         }
         return peliculas.get(pelicula).getAsientos();
     }

@@ -25,17 +25,17 @@ public class CompraFrame extends JFrame {
     public CompraFrame(CineProyecto cineProyecto) {
         this.cineProyecto = cineProyecto;
 
-        // Configuración básica
-        setTitle("Compra de Boletos");
+ 
+        setTitle("Compra de Entradas");
         setSize(600, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        // Selector de películas
+ 
         cmbPeliculas = new JComboBox<>(cineProyecto.obtenerPeliculas().keySet().toArray(new String[0]));
         cmbPeliculas.addActionListener(e -> actualizarTablaAsientos());
 
-        // Configurar JTable
+
         String[] columnas = {"1", "2", "3", "4"};
         modeloTabla = new DefaultTableModel(generarDatosAsientos((String) cmbPeliculas.getSelectedItem()), columnas) {
             @Override
@@ -46,18 +46,18 @@ public class CompraFrame extends JFrame {
         tablaAsientos = new JTable(modeloTabla);
         tablaAsientos.setRowHeight(50);
 
-        // Campo de texto para cliente
+      
         txtNombreCliente = new JTextField();
-        txtNombreCliente.setBorder(BorderFactory.createTitledBorder("Nombre del Cliente (Opcional)"));
+        txtNombreCliente.setBorder(BorderFactory.createTitledBorder("Nombre (OPCIONAL)"));
 
-        // Botones
-        JButton btnConfirmar = new JButton("Confirmar Compra");
+
+        JButton btnConfirmar = new JButton("Confirmar");
         btnConfirmar.addActionListener(e -> confirmarCompra());
 
         JButton btnVolver = new JButton("Volver");
         btnVolver.addActionListener(e -> {
-            new MainFrame(cineProyecto).setVisible(true);  // Volver a MainFrame pasando cineProyecto
-            dispose();  // Cerrar el CompraFrame
+            new MainFrame(cineProyecto).setVisible(true); 
+            dispose(); 
         });
 
         JPanel panelInferior = new JPanel(new GridLayout(2, 1, 10, 10));
@@ -94,24 +94,24 @@ public class CompraFrame extends JFrame {
         int columna = tablaAsientos.getSelectedColumn();
 
         if (fila == -1 || columna == -1) {
-            JOptionPane.showMessageDialog(this, "Por favor selecciona un asiento.");
+            JOptionPane.showMessageDialog(this, "Elige tu asiento");
             return;
         }
 
         String pelicula = (String) cmbPeliculas.getSelectedItem();
         boolean[][] asientos = cineProyecto.obtenerAsientos(pelicula);
 
-        // Validar si el asiento ya está ocupado
+    
         if (asientos[fila][columna]) {
-            JOptionPane.showMessageDialog(this, "Este asiento ya está ocupado.");
+            JOptionPane.showMessageDialog(this, "ASIENTO OCUPADO");
             return;
         }
 
-        // Marcar asiento como ocupado
+    
         asientos[fila][columna] = true;
         modeloTabla.setValueAt("X", fila, columna);
 
-        // Registrar el boleto
+  
         String cliente = txtNombreCliente.getText().isEmpty() ? "Sin nombre" : txtNombreCliente.getText();
         String asiento = "Fila " + (fila + 1) + ", Columna " + (columna + 1);
         double precio = cineProyecto.obtenerPeliculas().get(pelicula).getPrecio();

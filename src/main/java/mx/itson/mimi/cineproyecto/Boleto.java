@@ -10,20 +10,31 @@ package mx.itson.mimi.cineproyecto;
  */
 public class Boleto {
     private String cliente;
-    private Pelicula pelicula;
-    private int fila;
-    private int columna;
+    private String pelicula;
+    private String asiento;
+    private double precio;
 
-    public Boleto(String cliente, Pelicula pelicula, int fila, int columna) {
-        this.cliente = cliente.isEmpty() ? "Sin nombre" : cliente;
+    public Boleto(String cliente, String pelicula, String asiento, double precio) {
+        this.cliente = cliente;
         this.pelicula = pelicula;
-        this.fila = fila;
-        this.columna = columna;
+        this.asiento = asiento;
+        this.precio = precio;
     }
 
-    public String getCliente() { return cliente; }
-    public Pelicula getPelicula() { return pelicula; }
-    public int getFila() { return fila; }
-    public int getColumna() { return columna; }
-}
+    // Getters
+    public String getCliente() {
+        return cliente;
+    }
 
+    public String getPelicula() {
+        return pelicula;
+    }
+
+    public String getAsiento() {
+        return asiento;
+    }
+
+    public double getPrecio() {
+        return precio;
+    }
+}

@@ -11,45 +11,54 @@ package mx.itson.mimi.cineproyecto.ui;
 
 import javax.swing.*;
 import java.awt.*;
+import mx.itson.mimi.cineproyecto.CineProyecto;
 
-public class CarteleraFrame extends javax.swing.JFrame {
+public class CarteleraFrame extends JFrame {
 
-    /**
-     * Creates new form CarteleraFrame (Aqui se agregan las peliculas a la cartelera)
-     */
-      public CarteleraFrame() {
+    private CineProyecto cineProyecto;
 
-        setTitle("Cartelera ");
-        setSize(700, 300);
+    public CarteleraFrame(CineProyecto cineProyecto) {
+        this.cineProyecto = cineProyecto;
+
+        // Configuración básica
+        setTitle("Cartelera");
+        setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
+        setLayout(new GridLayout(4, 1, 10, 10));
 
+        // Crear los botones para cada película
+        JButton btnVenom = new JButton("Venom: El Último Baile");
+        JButton btnSonrie = new JButton("Sonríe 2");
+        JButton btnGladiador = new JButton("Gladiador (Reestreno)");
 
-        String[] columnas = {"Película", "Horario", "Precio"};
-        String[][] datos = {
-            {"Venom: El Último Baile", "2:00 PM", "$120 MX "},
-            {"Sonríe 2", "5:00 PM", "$100 MX"},
-            {"Gladiador (Reestreno)", "8:00 PM", "$150 MX"},
-            {"CT Rewrite", "2:00 PM", "$1000 MX"},
-            {"Requiem Por Un Sueño", "7:00 PM", "$160 MX"}
-        };
-
-        JTable tablaCartelera = new JTable(datos, columnas);
-        JScrollPane scrollPane = new JScrollPane(tablaCartelera);
-
-        JButton btnVolver = new JButton("Volver");
-        btnVolver.addActionListener(e -> {
-            new MainFrame().setVisible(true);
-            dispose();
+        // Acción de los botones para abrir CompraFrame
+        btnVenom.addActionListener(e -> {
+            new CompraFrame(cineProyecto).setVisible(true);  // Abrir CompraFrame
+            dispose();  // Cerrar CarteleraFrame
+        });
+        btnSonrie.addActionListener(e -> {
+            new CompraFrame(cineProyecto).setVisible(true);  // Abrir CompraFrame
+            dispose();  // Cerrar CarteleraFrame
+        });
+        btnGladiador.addActionListener(e -> {
+            new CompraFrame(cineProyecto).setVisible(true);  // Abrir CompraFrame
+            dispose();  // Cerrar CarteleraFrame
         });
 
-        add(scrollPane, BorderLayout.CENTER);
-        add(btnVolver, BorderLayout.SOUTH);
+        // Agregar los botones al frame
+        add(btnVenom);
+        add(btnSonrie);
+        add(btnGladiador);
 
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(null);  // Centrar la ventana
     }
 
-    
+    private CarteleraFrame() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -105,32 +114,9 @@ public class CarteleraFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CarteleraFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CarteleraFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CarteleraFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CarteleraFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new CarteleraFrame(new CineProyecto()).setVisible(true));
+    
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

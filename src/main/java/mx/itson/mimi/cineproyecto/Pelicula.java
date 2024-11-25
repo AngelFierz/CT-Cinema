@@ -9,29 +9,32 @@ package mx.itson.mimi.cineproyecto;
  * @author Propietario
  */
 public class Pelicula {
-    private String titulo;
+    private String nombre;
     private String horario;
     private double precio;
-    private int boletosVendidos;
+    private boolean[][] asientos;
 
-    public Pelicula(String titulo, String horario, double precio) {
-        this.titulo = titulo;
+    public Pelicula(String nombre, String horario, double precio) {
+        this.nombre = nombre;
         this.horario = horario;
         this.precio = precio;
-        this.boletosVendidos = 0;
+        this.asientos = new boolean[4][4]; // Inicializa una matriz de 4x4 para los asientos
     }
 
-    public String getTitulo() { return titulo; }
-    public String getHorario() { return horario; }
-    public double getPrecio() { return precio; }
-    public int getBoletosVendidos() { return boletosVendidos; }
-
-    public void incrementarBoletosVendidos() {
-        boletosVendidos++;
+    // Getters
+    public String getNombre() {
+        return nombre;
     }
 
-    public double getGananciaTotal() {
-        return boletosVendidos * precio;
+    public String getHorario() {
+        return horario;
+    }
+
+    public double getPrecio() {
+        return precio;
+    }
+
+    public boolean[][] getAsientos() {
+        return asientos;
     }
 }
-

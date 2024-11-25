@@ -12,78 +12,53 @@ package mx.itson.mimi.cineproyecto.ui;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.util.HashMap;
-import java.util.Map;
+import mx.itson.mimi.cineproyecto.CineProyecto;
 
 public class CompraFrame extends JFrame {
 
+    private CineProyecto cineProyecto;
     private JTable tablaAsientos;
     private DefaultTableModel modeloTabla;
     private JComboBox<String> cmbPeliculas;
     private JTextField txtNombreCliente;
 
-    private Map<String, boolean[][]> mapaAsientos;
+    public CompraFrame(CineProyecto cineProyecto) {
+        this.cineProyecto = cineProyecto;
 
-    public CompraFrame() {
-        setTitle("Boletotes");
-        setSize(800, 400);
+        // Configuración básica
+        setTitle("Compra de Boletos");
+        setSize(600, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        mapaAsientos = new HashMap<>();
-        inicializarAsientos();
-
-        cmbPeliculas = new JComboBox<>(new String[]{
-            "Venom: El Último Baile",
-            "Sonríe 2", 
-            "Gladiador (Reestreno)",
-            "CT Rewrite",
-            "Requiem Por Un Sueño"
-        });
-
+        // Selector de películas
+        cmbPeliculas = new JComboBox<>(cineProyecto.obtenerPeliculas().keySet().toArray(new String[0]));
         cmbPeliculas.addActionListener(e -> actualizarTablaAsientos());
 
- 
-        String[] columnas = {"1", "2", "3", "4","5"}; 
-        modeloTabla = new DefaultTableModel(generarDatosAsientos("Venom: El Último Baile"), columnas) {
+        // Configurar JTable
+        String[] columnas = {"1", "2", "3", "4"};
+        modeloTabla = new DefaultTableModel(generarDatosAsientos((String) cmbPeliculas.getSelectedItem()), columnas) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
         tablaAsientos = new JTable(modeloTabla);
-        tablaAsientos.setRowHeight(50); 
+        tablaAsientos.setRowHeight(50);
 
         // Campo de texto para cliente
         txtNombreCliente = new JTextField();
-        txtNombreCliente.setBorder(BorderFactory.createTitledBorder("!"));
+        txtNombreCliente.setBorder(BorderFactory.createTitledBorder("Nombre del Cliente (Opcional)"));
 
         // Botones
         JButton btnConfirmar = new JButton("Confirmar Compra");
-        JButton btnVolver = new JButton("Volver");
-
-        tablaAsientos.getSelectionModel().addListSelectionListener(e -> {
-            int fila = tablaAsientos.getSelectedRow();
-            int columna = tablaAsientos.getSelectedColumn();
-            if (fila != -1 && columna != -1) {
-                String pelicula = (String) cmbPeliculas.getSelectedItem();
-                if (mapaAsientos.get(pelicula)[fila][columna]) {
-                    JOptionPane.showMessageDialog(null, "ASIENTO OCUPADO");
-                } else {
-                    JOptionPane.showMessageDialog(null, "Seleccionaste el asiento: Fila " + (fila + 1) + ", Columna " + (columna + 1));
-                }
-            }
-        });
-
-    
         btnConfirmar.addActionListener(e -> confirmarCompra());
 
-
+        JButton btnVolver = new JButton("Volver");
         btnVolver.addActionListener(e -> {
-            new MainFrame().setVisible(true);
-            dispose();
+            new MainFrame(cineProyecto).setVisible(true);  // Volver a MainFrame pasando cineProyecto
+            dispose();  // Cerrar el CompraFrame
         });
-
 
         JPanel panelInferior = new JPanel(new GridLayout(2, 1, 10, 10));
         panelInferior.add(txtNombreCliente);
@@ -94,21 +69,12 @@ public class CompraFrame extends JFrame {
         add(panelInferior, BorderLayout.SOUTH);
         add(btnVolver, BorderLayout.EAST);
 
+        actualizarTablaAsientos();
         setLocationRelativeTo(null);
     }
 
-
-    private void inicializarAsientos() {
-        mapaAsientos.put("Venom: El Último Baile", new boolean[4][4]);
-        mapaAsientos.put("Sonríe 2", new boolean[4][4]);
-        mapaAsientos.put("Gladiador (Reestreno)", new boolean[5][5]);
-        mapaAsientos.put("CT Rewrite", new boolean[6][5]);
-        mapaAsientos.put("Requiem Por Un Sueño", new boolean[5][5]);
-    }
-
-   
     private Object[][] generarDatosAsientos(String pelicula) {
-        boolean[][] asientos = mapaAsientos.get(pelicula);
+        boolean[][] asientos = cineProyecto.obtenerAsientos(pelicula);
         Object[][] datos = new Object[4][4];
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
@@ -118,43 +84,45 @@ public class CompraFrame extends JFrame {
         return datos;
     }
 
-
     private void actualizarTablaAsientos() {
         String pelicula = (String) cmbPeliculas.getSelectedItem();
         modeloTabla.setDataVector(generarDatosAsientos(pelicula), new String[]{"1", "2", "3", "4"});
     }
-
 
     private void confirmarCompra() {
         int fila = tablaAsientos.getSelectedRow();
         int columna = tablaAsientos.getSelectedColumn();
 
         if (fila == -1 || columna == -1) {
-            JOptionPane.showMessageDialog(this, "Elige un asiento");
+            JOptionPane.showMessageDialog(this, "Por favor selecciona un asiento.");
             return;
         }
 
         String pelicula = (String) cmbPeliculas.getSelectedItem();
-        if (mapaAsientos.get(pelicula)[fila][columna]) {
-            JOptionPane.showMessageDialog(this, "ASIENTO OCUPADO");
+        boolean[][] asientos = cineProyecto.obtenerAsientos(pelicula);
+
+        // Validar si el asiento ya está ocupado
+        if (asientos[fila][columna]) {
+            JOptionPane.showMessageDialog(this, "Este asiento ya está ocupado.");
             return;
         }
 
+        // Marcar asiento como ocupado
+        asientos[fila][columna] = true;
+        modeloTabla.setValueAt("X", fila, columna);
+
+        // Registrar el boleto
         String cliente = txtNombreCliente.getText().isEmpty() ? "Sin nombre" : txtNombreCliente.getText();
         String asiento = "Fila " + (fila + 1) + ", Columna " + (columna + 1);
+        double precio = cineProyecto.obtenerPeliculas().get(pelicula).getPrecio();
+        cineProyecto.registrarCompra(cliente, pelicula, asiento, precio);
 
-    
-        mapaAsientos.get(pelicula)[fila][columna] = true;
-        actualizarTablaAsientos(); // Refrescar la tabla visualmente
-
-      
         JOptionPane.showMessageDialog(this, "Compra realizada con éxito.\nCliente: " + cliente +
             "\nPelícula: " + pelicula + "\nAsiento: " + asiento);
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new CompraFrame().setVisible(true));
-    }
+
+
 
 
 
@@ -170,8 +138,6 @@ public class CompraFrame extends JFrame {
         cmbPelicula = new javax.swing.JComboBox<>();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         btnconfirmar = new javax.swing.JButton();
         btnvolver = new javax.swing.JButton();
 
@@ -191,19 +157,6 @@ public class CompraFrame extends JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 100, Short.MAX_VALUE)
         );
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
 
         btnconfirmar.setText("Confirmar Compra");
         btnconfirmar.addActionListener(new java.awt.event.ActionListener() {
@@ -229,35 +182,28 @@ public class CompraFrame extends JFrame {
                         .addGap(109, 109, 109)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(165, 165, 165)
                         .addComponent(cmbPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(141, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(136, 136, 136)
                 .addComponent(btnconfirmar)
                 .addGap(146, 146, 146)
                 .addComponent(btnvolver)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(181, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(cmbPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(59, 59, 59)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(46, 46, 46)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 374, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(26, 26, 26)
+                .addGap(59, 59, 59)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(46, 46, 46)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(213, 213, 213)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnvolver, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
                     .addComponent(btnconfirmar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -282,7 +228,5 @@ public class CompraFrame extends JFrame {
     private javax.swing.JComboBox<String> cmbPelicula;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

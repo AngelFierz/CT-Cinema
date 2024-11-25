@@ -8,48 +8,45 @@ package mx.itson.mimi.cineproyecto;
  *
  * @author Propietario
  */
-import java.util.Scanner;
+import java.util.*;
 
 public class CineProyecto {
-    public static void main(String[] args) {
-        Cine cine = new Cine(); // Crear instancia del cine
-        Scanner scanner = new Scanner(System.in);
-        boolean ejecutando = true;
+    private Map<String, Pelicula> peliculas;
+    private List<Boleto> listaBoletos;
 
-        while (ejecutando) {
-            System.out.println("\n=== Bienvenido al Cine VIP ===");
-            System.out.println("1. Mostrar cartelera");
-            System.out.println("2. Comprar boletos");
-            System.out.println("3. Ver reporte general");
-            System.out.println("4. Ver reporte por función");
-            System.out.println("5. Salir");
-            System.out.print("Seleccione una opción: ");
+    public CineProyecto() {
+        peliculas = new HashMap<>();
+        listaBoletos = new ArrayList<>();
+        inicializarPeliculas();
+    }
 
-            int opcion = scanner.nextInt();
-            scanner.nextLine(); // Limpiar buffer
+    // Inicializar películas en cartelera
+    private void inicializarPeliculas() {
+        peliculas.put("Venom: El Último Baile", new Pelicula("Venom: El Último Baile", "2:00 PM", 120));
+        peliculas.put("Sonríe 2", new Pelicula("Sonríe 2", "5:00 PM", 100));
+        peliculas.put("Gladiador (Reestreno)", new Pelicula("Gladiador (Reestreno)", "8:00 PM", 150));
+    }
 
-            switch (opcion) {
-                case 1:
-                    cine.mostrarCartelera();
-                    break;
-                case 2:
-                    cine.comprarBoletos(scanner);
-                    break;
-                case 3:
-                    cine.mostrarReporteGeneral();
-                    break;
-                case 4:
-                    cine.mostrarReportePorFuncion();
-                    break;
-                case 5:
-                    System.out.println("¡Gracias por usar el sistema de cine! Adiós.");
-                    ejecutando = false;
-                    break;
-                default:
-                    System.out.println("Opción inválida. Intente de nuevo.");
-            }
+    // Obtener películas disponibles
+    public Map<String, Pelicula> obtenerPeliculas() {
+        return peliculas;
+    }
+
+    // Obtener los asientos de una película
+    public boolean[][] obtenerAsientos(String pelicula) {
+        if (!peliculas.containsKey(pelicula)) {
+            throw new IllegalArgumentException("Película no encontrada: " + pelicula);
         }
+        return peliculas.get(pelicula).getAsientos();
+    }
 
-        scanner.close();
+    // Registrar un boleto vendido
+    public void registrarCompra(String cliente, String pelicula, String asiento, double precio) {
+        listaBoletos.add(new Boleto(cliente, pelicula, asiento, precio));
+    }
+
+    // Obtener la lista de boletos vendidos
+    public List<Boleto> obtenerBoletosVendidos() {
+        return listaBoletos;
     }
 }

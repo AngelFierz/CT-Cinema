@@ -10,43 +10,65 @@ package mx.itson.mimi.cineproyecto.ui;
  */
 import javax.swing.*;
 import java.awt.*;
+import mx.itson.mimi.cineproyecto.CineProyecto;
 
 public class MainFrame extends JFrame {
 
-    public MainFrame() {
-        
-        setTitle("CT Cinema");
-        setSize(600, 300);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new GridLayout(3, 1, 10, 10)); 
+    private CineProyecto cineProyecto; // Referencia a CineProyecto
 
-       
+    public MainFrame(CineProyecto cineProyecto) {
+        this.cineProyecto = cineProyecto;
+
+        // Configuración básica
+        setTitle("Cine VIP - Menú Principal");
+        setSize(400, 300);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new GridLayout(5, 1, 10, 10));
+
+        // Botones para diferentes funcionalidades
         JButton btnCartelera = new JButton("Mostrar Cartelera");
         JButton btnComprarBoletos = new JButton("Comprar Boletos");
+        JButton btnReporteGeneral = new JButton("Reporte General");
+        JButton btnReportePorFuncion = new JButton("Reporte por Función");
         JButton btnSalir = new JButton("Salir");
 
+        // Eventos de los botones
         btnCartelera.addActionListener(e -> {
-            new CarteleraFrame().setVisible(true);
-            dispose();
+            new CarteleraFrame(cineProyecto).setVisible(true);  // Abrir CarteleraFrame
+            dispose();  // Cerrar MainFrame
         });
 
         btnComprarBoletos.addActionListener(e -> {
-            new CompraFrame().setVisible(true);
-            dispose();
+            new CompraFrame(cineProyecto).setVisible(true);  // Abrir CompraFrame
+            dispose();  // Cerrar MainFrame
         });
 
-        btnSalir.addActionListener(e -> System.exit(0));
+        btnReporteGeneral.addActionListener(e -> {
+            new ReporteGeneralFrame(cineProyecto.obtenerBoletosVendidos(), cineProyecto).setVisible(true);  // Abrir ReporteGeneralFrame
+            dispose();  // Cerrar MainFrame
+        });
 
+        btnReportePorFuncion.addActionListener(e -> {
+            new ReportePorFuncionFrame(cineProyecto.obtenerBoletosVendidos(), cineProyecto).setVisible(true);  // Abrir ReportePorFuncionFrame
+            dispose();  // Cerrar MainFrame
+        });
+
+        btnSalir.addActionListener(e -> System.exit(0));  // Salir de la aplicación
+
+        // Agregar los botones al layout
         add(btnCartelera);
         add(btnComprarBoletos);
+        add(btnReporteGeneral);
+        add(btnReportePorFuncion);
         add(btnSalir);
 
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(null);  // Centrar la ventana
     }
 
-
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new MainFrame().setVisible(true));
+        // Crear una instancia de CineProyecto y pasarla al MainFrame
+        CineProyecto cineProyecto = new CineProyecto();
+        SwingUtilities.invokeLater(() -> new MainFrame(cineProyecto).setVisible(true));
     }
 
 

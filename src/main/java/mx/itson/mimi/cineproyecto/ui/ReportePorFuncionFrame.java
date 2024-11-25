@@ -20,36 +20,36 @@ public class ReportePorFuncionFrame extends JFrame {
 
     private JTextArea txtReporteFuncion;
     private List<Boleto> listaBoletos;
-    private CineProyecto cineProyecto;  // Añadir la referencia a CineProyecto
+    private CineProyecto cineProyecto;  
 
     public ReportePorFuncionFrame(List<Boleto> listaBoletos, CineProyecto cineProyecto) {
         this.listaBoletos = listaBoletos;
         this.cineProyecto = cineProyecto;
 
-        // Configuración básica
+       
         setTitle("Reporte por Función");
         setSize(500, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        // Inicializar componentes
+     
         txtReporteFuncion = new JTextArea();
         txtReporteFuncion.setEditable(false);
         cargarReporte();
 
         JScrollPane scrollPane = new JScrollPane(txtReporteFuncion);
 
-        // Botón Volver
+       
         JButton btnVolver = new JButton("Volver");
         btnVolver.addActionListener(e -> {
-            new MainFrame(cineProyecto).setVisible(true);  // Volver al MainFrame pasando cineProyecto
-            dispose();  // Cerrar el ReportePorFuncionFrame
+            new MainFrame(cineProyecto).setVisible(true); 
+            dispose(); 
         });
 
         add(scrollPane, BorderLayout.CENTER);
         add(btnVolver, BorderLayout.SOUTH);
 
-        setLocationRelativeTo(null);  // Centrar la ventana
+
     }
 
     private void cargarReporte() {

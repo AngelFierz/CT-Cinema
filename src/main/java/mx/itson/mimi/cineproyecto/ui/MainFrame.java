@@ -25,14 +25,14 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new GridLayout(5, 1, 10, 10));
 
-        // Botones para diferentes funcionalidades
+      
         JButton btnCartelera = new JButton("Ver Cartelera/Comprar");
         JButton btnComprarBoletos = new JButton("Comprar Boletos Fast");
         JButton btnReporteGeneral = new JButton("Reporte General");
         JButton btnReportePorFuncion = new JButton("Reporte por Función");
         JButton btnSalir = new JButton("Largarse");
 
-        // Eventos de los botones
+   
         btnCartelera.addActionListener(e -> {
             new CarteleraFrame(cineProyecto).setVisible(true);  
             dispose(); 

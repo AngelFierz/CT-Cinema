@@ -19,7 +19,7 @@ public class ReporteGeneralFrame extends JFrame {
     private JTextArea txtReporteGeneral;
     private JLabel lblTotales;
     private List<Boleto> listaBoletos;
-    private CineProyecto cineProyecto;  // Añadir la referencia a CineProyecto
+    private CineProyecto cineProyecto; 
 
     public ReporteGeneralFrame(List<Boleto> listaBoletos, CineProyecto cineProyecto) {
         this.listaBoletos = listaBoletos;
@@ -38,11 +38,11 @@ public class ReporteGeneralFrame extends JFrame {
 
         JScrollPane scrollPane = new JScrollPane(txtReporteGeneral);
 
-        // Totales
+
         lblTotales = new JLabel();
         actualizarTotales();
 
-        // Botón Volver
+
         JButton btnVolver = new JButton("Volver");
         btnVolver.addActionListener(e -> {
             new MainFrame(cineProyecto).setVisible(true);  
@@ -56,7 +56,7 @@ public class ReporteGeneralFrame extends JFrame {
         add(scrollPane, BorderLayout.CENTER);
         add(panelInferior, BorderLayout.SOUTH);
 
-        setLocationRelativeTo(null);  // Centrar la ventana
+        setLocationRelativeTo(null);  // Tengo hambre
     }
 
     private void cargarReporte() {
